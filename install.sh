@@ -18,17 +18,19 @@ if [ -f "$CONFIG_PATH" ]; then
     cp "$CONFIG_PATH" "${CONFIG_PATH}.backup"
 fi
 
-# Generate UUID
-UUID=$(python3 -c 'import uuid; print(str(uuid.uuid4()))')
+# Read existing config or create new one
+if [ -f "$CONFIG_PATH" ]; then
+    EXISTING_CONFIG=$(cat "$CONFIG_PATH")
+else
+    EXISTING_CONFIG="{}"
+fi
 
-# Create new configuration
-cat > "$CONFIG_PATH" << EOF
-{
-    "telemetry.machineId": "$UUID",
-    "telemetry.macMachineId": "$UUID",
-    "telemetry.devDeviceId": "$UUID",
-    "telemetry.sqmId": "$UUID"
-}
-EOF
+# Update required properties while preserving others using jq
+echo "$EXISTING_CONFIG" | jq \
+    --arg uuid "$UUID" \
+    '.["telemetry.machineId"]=$uuid | 
+     .["telemetry.macMachineId"]=$uuid | 
+     .["telemetry.devDeviceId"]=$uuid | 
+     .["telemetry.sqmId"]=$uuid' > "$CONFIG_PATH"
 
 echo "Instalasi selesai! Silakan buka kembali Cursor." 

@@ -9,14 +9,18 @@ if (Test-Path $configPath) {
     Copy-Item $configPath "$configPath.backup"
 }
 
-# Generate new configuration
-$uuid = [guid]::NewGuid().ToString()
-$config = @{
-    "telemetry.machineId" = $uuid
-    "telemetry.macMachineId" = $uuid
-    "telemetry.devDeviceId" = $uuid
-    "telemetry.sqmId" = $uuid
+# Read existing config or create new one if doesn't exist
+if (Test-Path $configPath) {
+    $config = Get-Content $configPath | ConvertFrom-Json
+} else {
+    $config = @{}
 }
+
+# Update only the required properties
+$config.'telemetry.machineId' = $uuid
+$config.'telemetry.macMachineId' = $uuid
+$config.'telemetry.devDeviceId' = $uuid
+$config.'telemetry.sqmId' = $uuid
 
 # Create directory if it doesn't exist
 $directory = Split-Path $configPath -Parent
