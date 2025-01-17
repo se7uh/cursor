@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator UUID</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1, h2 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .uuid-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        #uuidOutput {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 16px;
+            background-color: #f8f9fa;
+        }
+        .copy-btn {
+            padding: 12px 24px;
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .copy-btn:hover {
+            background-color: #283593;
+        }
+        .instructions {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .instructions h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 24px;
+        }
+        .instructions ol {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 16px;
+        }
+        .path-info {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        .path-info strong {
+            display: inline-block;
+            min-width: 100px;
+            margin-right: 10px;
+        }
+        .code-block {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 15px 0;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        .download-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .download-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .download-btn:hover {
+            background-color: #283593;
+        }
+        .download-btn img {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>UUID v4 Anda</h1>
+        <div class="uuid-display">
+            <input type="text" id="uuidOutput" readonly>
+            <button class="copy-btn" onclick="copyUUID()">Salin</button>
+        </div>
+    </div>
+
+    <div class="instructions">
+        <h2>Petunjuk Instalasi:</h2>
+        <ol>
+            <li>Tutup Cursor</li>
+            <li>Pilih metode instalasi:
+                <div class="installation-options">
+                    <h3>Opsi 1: Instalasi Otomatis</h3>
+                    <div class="download-section">
+                        <div class="download-buttons">
+                            <button class="download-btn" onclick="downloadScript('windows')">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAHWSURBVFiF7ZY9axRRFIafM3d3k0UIWUQIKEJSpDCVjdgI/gULf4LY+QNs/Q2CLyTYaKG9YKEguRAIqN1uEUKEFTQQMWRZ3Zm5x2KXZcNmdmZuYmXxwsDMvec873tm7twLM2X6r5Q3eJckNwvlgYc+xQe89W0w5gngk+i7qvpFVZ8mSXKzUPLtWwBRfamqr0Tkuaqmqvq8VCo9SpLkVp4cLwAiIqr6BHhbqVTudnd3n21tbXVE5ImqvhWRp0CxADUgBdrtdvvtysrKp/n5+Q/AEvAeeA/cz5PkBVgHUNXPwPutra0vAI1G4yPwDfgJ3PVt4AUQkXWgrao/gE/b29vfAer1+kfgO3AbuOPbwPsbEJEGsKiq34DPOzs73wHq9foH4AewANz2beAFUNVFEVkGfovIl93d3R8AtVrtPdAGbgG3fBt4b4GINIEVEWmLyN7e3t5vgGq1+g7oADeAG74NvABpmq6KyBrQAQ4ODg4OASqVylvgELgGXPdt4AUQkXURuQYcqerR4eHhEUC5XH4DHAPLwDXfBt5bICLrwApwAnRPTk5OAUql0mvgN3AVuOrbwAugqhsisgGcAr3T09M+QD6ffwWcAYvAFd8GM/1b+gMjlm5rKW9G8QAAAABJRU5ErkJggg==">
+                                Windows
+                            </button>
+                            <button class="download-btn" onclick="downloadScript('mac')">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAMXSURBVFiF7ZZNaFxVFMd/577JZBIzNR+FQrVFF0LBQopgC2qgQqBtcOFGLbhwJXXhxkW7EbpxJeJCKFIQBL8oCC5cKKKCINiPRakoiBWKgVJtmsl8vHfvPS7ee/PmTWYyM5NJdtUDj3vvu+f8z+/+zz3nDtzWbf3PEjvZ7BZCsNYuW2vPWWs/sNa+EUK4Z9L9EwEIIewxxrxkrf3SWvuVMeZsCOHgpBgTATDG7DHGXAQ+B54FTgIfGWO+Mcb4STDKSQCstX5hYeFzETlB7JxLwCfAC8aYr0MID9xygBDCAWPMh8DLxLN/HXgReAo4JSKfLi4u7p40RmWczcPDw0eBd4Aq8AfwrIh8H0I4YIw5A7wCnAYuAOdv7N0zDsZYGRCRE8DbQAX4FXhORH4CMMZcAE4Bp4wxH4cQDo0bY6wMiMgJ4B1AgR+B0yLyxw17DXgNeBP4zBjz8DgYu8qAiDwOvAcosBpF/3nTvgq8DLwPXDTGPDIqxq4yICKPAe8R0/4t8LSI/DaCvQK8CFwCLhtjHholxsgZEJGjwEVi2n8AnhGR30exV4DngQ+Ay8aYB0fBGCkDInIEeJ+Y9h+Bp0Tkz+3sIYQycB54B/jCGPPQbWVARB4F3iWe+4/AMyLy1072EEIN+DdGxRhzaFKAw8A7xA74CTgjIpt3YjfGlIwxZ4H9wF5r7f5JMnaUARE5BLwNlIgNdVZE/rkbuzHmPuBz4BiwBKyEEF6fBGPbDIjIQeJbXyJ2wDkR2RrFbox5APgCeALYADaB34GNEMLWSBnYLgMicpDYcGXgGnBeRLojYhwCPgMeB7rAFtAD+sRSbQJ/jZKBkQBE5H7iW18G1oHnRGRrBPt9wKfACeJk1CeKD4g9YhPYHBVjWwAR2U8UL4jieRHpjmC/F7gMPEk8Yx0RH4hIl1jCf48DsCOAiOwDLgMV4G/gvIh0R7DvBS4Bp4iC/YJwn1iWLvDPuBnYEUBE7iECVYAN4EURaY9g3wNcICYrRdFBIX4gIl3G/DtuC3Bb/6n+BQoK5Hw5RwxhAAAAAElFTkSuQmCC">
+                                macOS
+                            </button>
+                            <button class="download-btn" onclick="downloadScript('linux')">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA7AAAAOwBeShxvQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAJhSURBVFiF7ZY7aFRBFIb/M3efSVaTRbIqKhgfhYVEEBQrC0EQRBDBQrCxsLGwEGwECxsLwUoQBAtBEEQQRBAEC8HCwkIsBBXBqERjks3u3p2Z42J2WRO3yL27hWDxwzDMnDn/+e65Z+YO0VOTJ6m1AJJnAKwB0JfkKwD3SL7OC6CU2g7gMoCtAL4DuEHyYW4AJPcAuAJgGYA3AE6TfJMbAMndAK4BWADgI4DTJN/nBkByCMB1AIsAfCJ5kuTH3ABIDgK4BWAxgK8kT5D8lBsAyQEAtwH0A/hO8jjJz7kBkOwHcAfAUgA/SR4j+SU3AJJ9AG4CWA7gF8kjJL/lBkCyAuAGgJUAfpM8TPJ7bgAkqwCuAtgA4A/JQyR/5AZAsgrgMoBNAP6SPEDyZ24AJCsALgHYAiBBRH4lIgtJPiC5Py8AEbkAYDuAFMAZkq9E5DiAewB2ishFkk/zADgPYBeADMB5ko9FZDeA+wB2i8glkk9yASB5DsBeAAbARZKPRGQXgAcA9ojIZZJP8wI4C2A/AAPgMsmHIrIDwEMAQyJyheTTXABIngFwEIAFcJXkAxHZBuARgGERuU7yWS4AJE8DOAzAArgO4J6IbAXwGMAeEblJ8nkuACRPATgKwAG4CeCOiGwB8ATAPhG5RfJFLgAkTwA4DsABuA3gtohsBvAUwH4RuUPyZS4AJI8BOAnAAbgL4JaIbATwDMABEblH8lUuACQPAzgNwAG4D+CGiKwH8BzAQRG5T/J1LgAkDwI4C8ABmABwXUTWAXgB4JCI3Cf5JheA/1Ui0gOYhv4BaQVYS/qF7YAAAAAASUVORK5CYII=">
+                                Linux
+                            </button>
+                        </div>
+                        <div class="path-info">
+                            <p><strong>Windows:</strong> Klik kanan file .ps1 > Run with PowerShell</p>
+                            <p><strong>macOS/Linux:</strong> Buka terminal, ketik: chmod +x install.sh && ./install.sh</p>
+                        </div>
+                    </div>
+
+                    <h3>Opsi 2: Instalasi Manual</h3>
+                    <ol>
+                        <li>Arahkan ke lokasi file konfigurasi:
+                            <div class="path-info">
+                                <p><strong>Windows:</strong> %APPDATA%\Cursor\User\globalStorage\storage.json</p>
+                                <p><strong>macOS:</strong> ~/Library/Application Support/Cursor/User/globalStorage/storage.json</p>
+                                <p><strong>Linux:</strong> ~/.config/Cursor/User/globalStorage/storage.json</p>
+                            </div>
+                        </li>
+                        <li>Buat cadangan dari storage.json</li>
+                        <li>Edit storage.json dan perbarui dengan konfigurasi ini:
+                            <div class="code-block"></div>
+                        </li>
+                    </ol>
+                </div>
+            </li>
+            <li>Buka kembali Cursor</li>
+        </ol>
+    </div>
+
+    <script>
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0,
+                    v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function updateJsonDisplay(uuid) {
+            const jsonContent = {
+                "telemetry.machineId": uuid,
+                "telemetry.macMachineId": uuid,
+                "telemetry.devDeviceId": uuid,
+                "telemetry.sqmId": uuid,
+            };
+            
+            const codeBlock = document.querySelector('.code-block');
+            codeBlock.textContent = JSON.stringify(jsonContent, null, 4);
+        }
+
+        function copyUUID() {
+            const uuidField = document.getElementById('uuidOutput');
+            uuidField.select();
+            document.execCommand('copy');
+            
+            const btn = document.querySelector('.copy-btn');
+            const originalText = btn.textContent;
+            btn.textContent = 'Tersalin!';
+            setTimeout(() => {
+                btn.textContent = originalText;
+            }, 2000);
+        }
+
+        function updateUUID() {
+            const uuid = generateUUID();
+            document.getElementById('uuidOutput').value = uuid;
+            updateJsonDisplay(uuid);
+        }
+
+        // Generate initial UUID
+        updateUUID();
+
+        // Update UUID when clicking the input field
+        document.getElementById('uuidOutput').addEventListener('click', updateUUID);
+
+        function downloadScript(os) {
+            let filename, content;
+            const dummyUrl = 'https://example.com/files/'; // Ganti dengan URL yang sebenarnya nanti
+
+            switch(os) {
+                case 'windows':
+                    window.location.href = dummyUrl + 'install-windows.ps1';
+                    break;
+                case 'mac':
+                case 'linux':
+                    window.location.href = dummyUrl + 'install.sh';
+                    break;
+            }
+        }
+    </script>
+</body>
+</html> 
