@@ -25,6 +25,9 @@ else
     EXISTING_CONFIG="{}"
 fi
 
+# Generate UUID using Python
+UUID=$(python3 -c 'import uuid; print(uuid.uuid4())')
+
 # Update required properties while preserving others using jq
 echo "$EXISTING_CONFIG" | jq \
     --arg uuid "$UUID" \

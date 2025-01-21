@@ -16,6 +16,9 @@ if (Test-Path $configPath) {
     $config = @{}
 }
 
+# Generate UUID using PowerShell
+$uuid = [guid]::NewGuid().ToString()
+
 # Update only the required properties
 $config.'telemetry.machineId' = $uuid
 $config.'telemetry.macMachineId' = $uuid

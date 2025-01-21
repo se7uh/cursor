@@ -13,8 +13,9 @@
             background-color: #f8f9fa;
         }
         .container {
+            text-align: center;
             background-color: white;
-            padding: 30px;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             margin-bottom: 20px;
@@ -192,11 +193,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Cursor Hack v1.es-tech</h1>
-        <div class="uuid-display">
-            <input type="text" id="uuidOutput" readonly>
-            <button class="copy-btn" onclick="copyUUID()">Salin</button>
-        </div>
+        <h1>Cursor.4u 🥸</h1>
     </div>
 
     <div class="instructions">
@@ -215,7 +212,7 @@
                                 <strong>Windows:</strong>
                             </p>
                             <div class="command-block">
-                                <span class="command-text">irm https://raw.githubusercontent.com/se7uh/cursor/refs/heads/main/install-windows.ps1?token=GHSAT0AAAAAAC5M7MNO4MSU6JBV7OYHV6A6Z4KF4BQ | iex</span>
+                                <span class="command-text"></span>
                                 <button class="copy-command" onclick="copyCommand(this)">Salin</button>
                             </div>
                             
@@ -226,7 +223,7 @@
                                 <strong>macOS:</strong>
                             </p>
                             <div class="command-block">
-                                <span class="command-text">curl -fsSL https://raw.githubusercontent.com/se7uh/cursor/refs/heads/main/install.sh?token=GHSAT0AAAAAAC5M7MNOR3THQS2M2N2URSV2Z4KF4CQ | bash</span>
+                                <span class="command-text"></span>
                                 <button class="copy-command" onclick="copyCommand(this)">Salin</button>
                             </div>
                             
@@ -237,7 +234,7 @@
                                 <strong>Linux:</strong>
                             </p>
                             <div class="command-block">
-                                <span class="command-text">curl -fsSL https://raw.githubusercontent.com/se7uh/cursor/refs/heads/main/install.sh?token=GHSAT0AAAAAAC5M7MNOR3THQS2M2N2URSV2Z4KF4CQ | bash</span>
+                                <span class="command-text"></span>
                                 <button class="copy-command" onclick="copyCommand(this)">Salin</button>
                             </div>
                         </div>
@@ -284,58 +281,31 @@
             codeBlock.textContent = JSON.stringify(jsonContent, null, 4);
         }
 
-        function updateInstallCommands(uuid) {
-            const windowsCmd = document.querySelector('.command-block:nth-of-type(1) .command-text');
-            const macCmd = document.querySelector('.command-block:nth-of-type(2) .command-text');
-            const linuxCmd = document.querySelector('.command-block:nth-of-type(3) .command-text');
+        function updateInstallCommands() {
+            const commandBlocks = document.querySelectorAll('.command-block .command-text');
+            const windowsCmd = commandBlocks[0];
+            const macCmd = commandBlocks[1];
+            const linuxCmd = commandBlocks[2];
 
+            const currentDomain = window.location.hostname || 'localhost';
             const baseUrl = {
-                windows: 'https://raw.githubusercontent.com/se7uh/cursor/refs/heads/main/install-windows.ps1',
-                unix: 'https://raw.githubusercontent.com/se7uh/cursor/refs/heads/main/install.sh'
+                windows: `https://${currentDomain}/cursor/install-windows.ps1`,
+                unix: `https://${currentDomain}/cursor/install.sh`
             };
 
-            windowsCmd.textContent = `$uuid="${uuid}"; irm ${baseUrl.windows}?token=GHSAT0AAAAAAC5M7MNO4MSU6JBV7OYHV6A6Z4KF4BQ | iex`;
-            macCmd.textContent = `UUID="${uuid}" curl -fsSL ${baseUrl.unix}?token=GHSAT0AAAAAAC5M7MNOR3THQS2M2N2URSV2Z4KF4CQ | bash`;
-            linuxCmd.textContent = `UUID="${uuid}" curl -fsSL ${baseUrl.unix}?token=GHSAT0AAAAAAC5M7MNOR3THQS2M2N2URSV2Z4KF4CQ | bash`;
-        }
-
-        function copyUUID() {
-            const uuidField = document.getElementById('uuidOutput');
-            uuidField.select();
-            document.execCommand('copy');
-            
-            const btn = document.querySelector('.copy-btn');
-            const originalText = btn.textContent;
-            btn.textContent = 'Tersalin!';
-            setTimeout(() => {
-                btn.textContent = originalText;
-            }, 2000);
+            windowsCmd.textContent = `irm ${baseUrl.windows} | iex`;
+            macCmd.textContent = `curl -fsSL ${baseUrl.unix} | bash`;
+            linuxCmd.textContent = `curl -fsSL ${baseUrl.unix} | bash`;
         }
 
         function updateUUID() {
             const uuid = generateUUID();
-            document.getElementById('uuidOutput').value = uuid;
             updateJsonDisplay(uuid);
-            updateInstallCommands(uuid);
+            updateInstallCommands();
         }
 
         // Generate initial UUID
         updateUUID();
-
-        // Update UUID when clicking the input field
-        document.getElementById('uuidOutput').addEventListener('click', updateUUID);
-
-        function downloadScript(os) {
-            const urls = {
-                'windows': 'https://raw.githubusercontent.com/se7uh/cursor/refs/heads/main/install-windows.ps1?token=GHSAT0AAAAAAC5M7MNO4MSU6JBV7OYHV6A6Z4KF4BQ',
-                'mac': 'https://raw.githubusercontent.com/se7uh/cursor/refs/heads/main/install.sh?token=GHSAT0AAAAAAC5M7MNOR3THQS2M2N2URSV2Z4KF4CQ',
-                'linux': 'https://raw.githubusercontent.com/se7uh/cursor/refs/heads/main/install.sh?token=GHSAT0AAAAAAC5M7MNOR3THQS2M2N2URSV2Z4KF4CQ'
-            };
-
-            if (urls[os]) {
-                window.location.href = urls[os];
-            }
-        }
 
         function copyCommand(button) {
             const commandText = button.previousElementSibling.textContent;
