@@ -18,7 +18,7 @@ export PATH="$HOME/.local/bin:$PATH"
 ## Penggunaan
 
 ```bash
-fakem {on|off|new|gen|run}
+fakem {on|off|new|gen|run|version}
 ```
 
 ### Perintah yang tersedia:
@@ -27,6 +27,7 @@ fakem {on|off|new|gen|run}
 - `new` - Generate fake machine ID baru
 - `gen` - Generate data telemetry baru dan update storage.json
 - `run` - Jalankan aplikasi dengan fake machine ID
+- `version` - Tampilkan informasi versi
 
 ## Catatan Penting
 - Tutup Cursor sebelum menjalankan script
