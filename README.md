@@ -1,36 +1,50 @@
-# UUID Generator
+# Cursor Hack
 
-A simple web-based UUID v4 generator that can be hosted on GitHub Pages. This tool generates random UUIDs and provides an easy way to copy them to your clipboard.
+Script untuk memodifikasi machine ID dan telemetry data Cursor untuk menghindari batasan trial.
 
-## Features
+## Instalasi
 
-- Generates UUID v4 format
-- Clean, modern interface
-- One-click copy to clipboard
-- Click to generate new UUID
-- Mobile responsive design
+### Linux
+1. Buka terminal
+2. Download dan install script:
+```bash
+curl -fsSL https://aku-es.tech/cursor/new.sh -o ~/.local/bin/fakem && chmod +x ~/.local/bin/fakem
+```
+3. Pastikan `~/.local/bin` ada di PATH. Jika belum, tambahkan baris berikut ke `~/.bashrc` atau `~/.zshrc`:
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
 
-## Usage
+### Windows
+1. Buka PowerShell sebagai Administrator
+2. Buat direktori untuk menyimpan script:
+```powershell
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.local\bin"
+```
+3. Download script:
+```powershell
+curl.exe -fsSL https://aku-es.tech/cursor/new.sh -o "$env:USERPROFILE\.local\bin\fakem.sh"
+```
+4. Install Git Bash jika belum terinstall
+5. Untuk menggunakan script, buka Git Bash dan jalankan:
+```bash
+~/.local/bin/fakem.sh
+```
 
-Simply visit the GitHub Pages URL for this repository. Click the input field to generate a new UUID, or use the "Copy" button to copy the current UUID to your clipboard.
+## Penggunaan
 
-## Local Development
+```bash
+fakem {on|off|new|gen|run}
+```
 
-To run this project locally:
+### Perintah yang tersedia:
+- `on` - Aktifkan fake machine ID
+- `off` - Nonaktifkan fake machine ID
+- `new` - Generate fake machine ID baru
+- `gen` - Generate data telemetry baru dan update storage.json
+- `run` - Jalankan aplikasi dengan fake machine ID
 
-1. Clone this repository
-2. Open `index.html` in your web browser
-3. That's it! No build process or dependencies required
-
-## GitHub Pages Deployment
-
-To deploy on GitHub Pages:
-
-1. Go to your repository settings
-2. Navigate to the "Pages" section
-3. Select the branch you want to deploy (usually `main` or `master`)
-4. Save the settings and wait for deployment to complete
-
-## License
-
-MIT License - feel free to use this code in your own projects! 
+## Catatan Penting
+- Tutup Cursor sebelum menjalankan script
+- Pastikan script memiliki permission yang benar (executable)
+- Untuk Windows, Git Bash diperlukan untuk menjalankan script

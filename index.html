@@ -4,316 +4,336 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cursor Hack v1.es-tech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg: #0f172a;
+            --text: #e2e8f0;
+            --text-light: #94a3b8;
+            --card-bg: #1e293b;
+            --code-bg: #0f172a;
+            --border: #334155;
+            --success: #22c55e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #f8f9fa;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+            padding: 2rem;
         }
+
         .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .header {
             text-align: center;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            margin: -2rem -2rem 2rem -2rem;
+            padding: 2rem;
+            border-radius: 24px 24px 0 0;
         }
-        h1, h2 {
-            color: #333;
-            margin-bottom: 30px;
-        }
-        .uuid-display {
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin: 0;
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 30px;
+            justify-content: center;
+            gap: 0.5rem;
         }
-        #uuidOutput {
-            flex-grow: 1;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 16px;
-            background-color: #f8f9fa;
+
+        h1 span {
+            background: linear-gradient(to right, #fff, #e2e8f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .copy-btn {
-            padding: 12px 24px;
-            background-color: #1a237e;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 2.5rem 0 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h2::before {
+            content: "#";
+            color: var(--primary);
+            font-weight: 600;
+            opacity: 0.5;
+        }
+
+        h3 {
+            font-size: 1.4rem;
             font-weight: 500;
-            transition: background-color 0.2s;
+            color: var(--text);
+            margin: 2rem 0 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        .copy-btn:hover {
-            background-color: #283593;
+
+        h3::before {
+            content: "→";
+            color: var(--primary);
         }
+
         .instructions {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin: 1rem 0;
         }
-        .instructions h2 {
-            margin-top: 0;
-            color: #333;
-            font-size: 24px;
+
+        ol {
+            list-style-position: inside;
+            padding: 0 1rem;
         }
-        .instructions ol {
-            margin: 20px 0;
-            padding-left: 20px;
+
+        ol ol {
+            padding-left: 2rem;
         }
-        .instructions li {
-            margin-bottom: 15px;
-            color: #333;
-            font-size: 16px;
+
+        li {
+            margin: 1rem 0;
+            color: var(--text-light);
         }
-        .path-info {
-            margin-left: 20px;
-            margin-bottom: 15px;
+
+        code {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            background: var(--code-bg);
+            color: #60a5fa;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
         }
-        .path-info strong {
-            display: inline-block;
-            min-width: 100px;
-            margin-right: 10px;
-        }
+
         .command-block {
-            background-color: #2d2d2d;
-            color: #d4d4d4;
-            padding: 12px;
-            border-radius: 4px;
-            font-family: monospace;
-            margin: 8px 0;
-            white-space: pre;
-            overflow-x: auto;
-            font-size: 14px;
-            border: 1px solid #404040;
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 10px;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
         }
+
+        .command-block::before {
+            content: "$";
+            color: var(--primary);
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
         .command-text {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            color: var(--text);
+            flex-grow: 1;
             overflow-x: auto;
-            scrollbar-width: thin; /* Firefox */
-            scrollbar-color: #505050 #2d2d2d; /* Firefox */
+            scrollbar-width: none;
+            font-size: 0.9rem;
         }
+
         .command-text::-webkit-scrollbar {
-            height: 6px; /* Tinggi scrollbar */
+            display: none;
         }
-        .command-text::-webkit-scrollbar-track {
-            background: #2d2d2d;
-            border-radius: 3px;
-        }
-        .command-text::-webkit-scrollbar-thumb {
-            background-color: #505050;
-            border-radius: 3px;
-        }
-        .command-text::-webkit-scrollbar-thumb:hover {
-            background-color: #606060;
-        }
+
         .copy-command {
-            padding: 6px 12px;
-            background-color: #404040;
-            color: #d4d4d4;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            white-space: nowrap;
-            transition: background-color 0.2s;
-            flex-shrink: 0;
-        }
-        .copy-command:hover {
-            background-color: #505050;
-        }
-        .code-block {
-            background-color: #1e1e1e;
-            color: #d4d4d4;
-            padding: 20px;
-            border-radius: 4px;
-            font-family: monospace;
-            margin: 15px 0;
-            white-space: pre;
-            overflow-x: auto;
-            font-size: 14px;
-        }
-        .path-info .code-block {
-            padding: 12px;
-            margin: 8px 0;
-            background-color: #2d2d2d;
-            border: 1px solid #404040;
-        }
-        .download-section {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-        }
-        .download-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .download-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            background-color: #1a237e;
+            background: var(--primary);
             color: white;
             border: none;
-            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 500;
-            transition: background-color 0.2s;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .download-btn:hover {
-            background-color: #283593;
+
+        .copy-command:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
         }
-        .download-btn img {
-            width: 20px;
-            height: 20px;
+
+        .copy-command:active {
+            transform: translateY(0);
         }
-        .os-label {
+
+        .usage-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .usage-list li {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
             display: flex;
-            align-items: center;
-            gap: 8px;
+            flex-direction: column;
+            gap: 0.5rem;
         }
-        .os-icon {
-            width: 16px;
-            height: 16px;
-            fill: #333;
+
+        .usage-list code {
+            background: var(--card-bg);
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .usage-list li span {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 1.5rem;
+                border-radius: 16px;
+            }
+
+            .header {
+                margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+                padding: 1.5rem;
+                border-radius: 16px 16px 0 0;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .usage-list {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🥸 4ee.cursor.4uu 🥸</h1>
-    </div>
+        <div class="header">
+            <h1>🥸 <span>4ee.cursor.4uu</span> 🥸</h1>
+        </div>
 
-    <div class="instructions">
-        <h2>Petunjuk Instalasi:</h2>
+        <h2>Petunjuk Instalasi</h2>
         <ol>
             <li>Tutup Cursor</li>
-            <li>Pilih metode instalasi:
-                <div class="installation-options">
-                    <h3>Opsi 1: Instalasi Otomatis</h3>
-                    <div class="download-section">
-                        <div class="path-info">
-                            <p class="os-label">
-                                <svg class="os-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                                    <path d="M0 93.7l183.6-25.3v177.4H0V93.7zm0 324.6l183.6 25.3V268.4H0v149.9zm203.8 28L448 480V268.4H203.8v177.9zm0-380.6v180.1H448V32L203.8 65.7z"/>
-                                </svg>
-                                <strong>Windows:</strong>
-                            </p>
-                            <div class="command-block">
-                                <span class="command-text"></span>
-                                <button class="copy-command" onclick="copyCommand(this)">Salin</button>
-                            </div>
-                            
-                            <p class="os-label">
-                                <svg class="os-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
-                                    <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
-                                </svg>
-                                <strong>macOS:</strong>
-                            </p>
-                            <div class="command-block">
-                                <span class="command-text"></span>
-                                <button class="copy-command" onclick="copyCommand(this)">Salin</button>
-                            </div>
-                            
-                            <p class="os-label">
-                                <svg class="os-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                                    <path d="M220.8 123.3c1 .5 1.8 1.7 3 1.7 1.1 0 2.8-.4 2.9-1.5 .2-1.4-1.9-2.3-3.2-2.9-1.7-.7-3.9-1-5.5-.1-.4 .2-.8 .7-.6 1.1 .3 1.3 2.3 1.1 3.4 1.7zm-21.9 1.7c1.2 0 2-1.2 3-1.7 1.1-.6 3.1-.4 3.5-1.6 .2-.4-.2-.9-.6-1.1-1.6-.9-3.8-.6-5.5 .1-1.3 .6-3.4 1.5-3.2 2.9 .1 1 1.8 1.5 2.8 1.4zM420 403.8c-3.6-4-5.3-11.6-7.2-19.7-1.8-8.1-3.9-16.8-10.5-22.4-1.3-1.1-2.6-2.1-4-2.9-1.3-.8-2.7-1.5-4.1-2 9.2-27.3 5.6-54.5-3.7-79.1-11.4-30.1-31.3-56.4-46.5-74.4-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7 .1 234.8 0 132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7-18.9 22.5-45.5 58.8-58.1 96.7-6 17.9-8.8 36.1-6.2 53.3-6.5 5.8-11.4 14.7-16.6 20.2-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4 0 3.9 .6 7.9 1.2 11.8 1.2 8.1 2.5 15.7 .8 20.8-5.2 14.4-5.9 24.4-2.2 31.7 3.8 7.3 11.4 10.5 20.1 12.3 17.3 3.6 40.8 2.7 59.3 12.5 19.8 10.4 39.9 14.1 55.9 10.4 11.6-2.6 21.1-9.6 25.9-20.2 12.5-.1 26.3-5.4 48.3-6.6 14.9-1.2 33.6 5.3 55.1 4.1 .6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23 16.6-1.3 34.1-11 48.3-27.9 13.6-16.4 36-23.2 50.9-32.2 7.4-4.5 13.4-10.1 13.9-18.3 .4-8.2-4.4-17.3-15.5-29.7zM223.7 87.3c9.8-22.2 34.2-21.8 44-.4 6.5 14.2 3.6 30.9-4.3 40.4-1.6-.8-5.9-2.6-12.6-4.9 1.1-1.2 3.1-2.7 3.9-4.6 4.8-11.8-.2-27-9.1-27.3-7.3-.5-13.9 10.8-11.8 23-4.1-2-9.4-3.5-13-4.4-1-6.9-.3-14.6 2.9-21.8zM183 75.8c10.1 0 20.8 14.2 19.1 33.5-3.5 1-7.1 2.5-10.2 4.6 1.2-8.9-3.3-20.1-9.6-19.6-8.4 .7-9.8 21.2-1.8 28.1 1 .8 1.9-.2-5.9 5.5-15.6-14.6-10.5-52.1 8.4-52.1zm-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5 4.7-4.4 13.5-14.2 27.9-14.2 7.1 0 15.6 2.3 25.9 8.9 6.3 4.1 11.3 4.4 22.6 9.3 8.4 3.5 13.7 9.7 10.5 18.2-2.6 7.1-11 14.4-22.7 18.1-11.1 3.6-19.8 16-38.2 14.9-3.9-.2-7-1-9.6-2.1-8-3.5-12.2-10.4-20-15-8.6-4.8-13.2-10.4-14.7-15.3-1.4-4.9 0-9 4.2-12.3zm3.3 334c-2.7 35.1-43.9 34.4-75.3 18-29.9-15.8-68.6-6.5-76.5-21.9-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6 .6-16-.6-23.9-1.2-7.8-1.8-15 .9-20 3.5-6.7 8.5-9.1 14.8-11.3 10.3-3.7 11.8-3.4 19.6-9.9 5.5-5.7 9.5-12.9 14.3-18 5.1-5.5 10-8.1 17.7-6.9 8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9zm-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6 7.1 0 14.2-2.2 16.7-8.9 2.3-6.2 0-14.9-7.4-24.9-13.5-18.2-38.3-32.5-38.3-32.5-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2 2.3-1.7 .8 3.2-8.7 20.8-8.5 16.1-24.4 53.3-2.6 82.4 .6-20.7 5.5-41.8 13.8-61.5 12-27.4 37.3-74.9 39.3-112.7 1.1 .8 4.6 3.2 6.2 4.1 4.6 2.7 8.1 6.7 12.6 10.3 12.4 10 28.5 9.2 42.4 1.2 6.2-3.5 11.2-7.5 15.9-9 9.9-3.1 17.8-8.6 22.3-15 7.7 30.4 25.7 74.3 37.2 95.7 6.1 11.4 18.3 35.5 23.6 64.6 3.3-.1 7 .4 10.9 1.4 13.8-35.7-11.7-74.2-23.3-84.9-4.7-4.6-4.9-6.6-2.6-6.5 12.6 11.2 29.2 33.7 35.2 59 2.8 11.6 3.3 23.7 .4 35.7 16.4 6.8 35.9 17.9 30.7 34.8-2.2-.1-3.2 0-4.2 0 3.2-10.1-3.9-17.6-22.8-26.1-19.6-8.6-36-8.6-38.3 12.5-12.1 4.2-18.3 14.7-21.4 27.3-2.8 11.2-3.6 24.7-4.4 39.9-.5 7.7-3.6 18-6.8 29-32.1 22.9-76.7 32.9-114.3 7.2zm257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3 3.7-14.2 9.2-28.8 9.9-40.6 .8-15.2 1.7-28.5 4.2-38.7 2.6-10.3 6.6-17.2 13.7-21.1 .3-.2 .7-.3 1-.5 .8 13.2 7.3 26.6 18.8 29.5 12.6 3.3 30.7-7.5 38.4-16.3 9-.3 15.7-.9 22.6 5.1 9.9 8.5 7.1 30.3 17.1 41.6 10.6 11.6 14 19.5 13.7 24.6zM173.3 148.7c2 1.9 4.7 4.5 8 7.1 6.6 5.2 15.8 10.6 27.3 10.6 11.6 0 22.5-5.9 31.8-10.8 4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9-1.5-1.4-1.9-4.6-4.3-4.9-1.4-.1-1.8 3.7 1.7 6.5z"/>
-                                </svg>
-                                <strong>Linux:</strong>
-                            </p>
-                            <div class="command-block">
-                                <span class="command-text"></span>
-                                <button class="copy-command" onclick="copyCommand(this)">Salin</button>
-                            </div>
+                <h3>Linux</h3>
+                <ol>
+                    <li>Buka terminal</li>
+                    <li>Jalankan perintah berikut untuk mengunduh dan memasang fakem:
+                        <div class="command-block">
+                            <span class="command-text">curl -fsSL https://aku-es.tech/cursor/new.sh -o ~/.local/bin/fakem && chmod +x ~/.local/bin/fakem</span>
+                            <button class="copy-command" onclick="copyCommand(this)">Salin</button>
                         </div>
-                    </div>
+                    </li>
+                    <li>Pastikan <code>~/.local/bin</code> ada di PATH anda. Jika belum, tambahkan baris berikut ke <code>~/.bashrc</code> atau <code>~/.zshrc</code>:
+                        <div class="command-block">
+                            <span class="command-text">export PATH="$HOME/.local/bin:$PATH"</span>
+                            <button class="copy-command" onclick="copyCommand(this)">Salin</button>
+                        </div>
+                    </li>
+                    <li>Sekarang anda bisa menggunakan perintah <code>fakem</code> dari terminal manapun</li>
+                </ol>
 
-                    <h3>Opsi 2: Instalasi Manual</h3>
-                    <ol>
-                        <li>Pergi ke lokasi file konfigurasi:
-                            <div class="path-info">
-                                <p><strong>Windows:</strong> %APPDATA%\Cursor\User\globalStorage\storage.json</p>
-                                <p><strong>macOS:</strong> ~/Library/Application Support/Cursor/User/globalStorage/storage.json</p>
-                                <p><strong>Linux:</strong> ~/.config/Cursor/User/globalStorage/storage.json</p>
-                            </div>
-                        </li>
-                        <li>Buat cadangan dari storage.json</li>
-                        <li>Edit storage.json dan perbarui dengan konfigurasi ini:
-                            <div class="code-block"></div>
-                        </li>
-                    </ol>
-                </div>
-            </li>
-            <li>Buka kembali Cursor</li>
+                <h3>Windows</h3>
+                <ol>
+                    <li>Buka PowerShell sebagai Administrator</li>
+                    <li>Buat direktori untuk menyimpan fakem:
+                        <div class="command-block">
+                            <span class="command-text">New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.local\bin"</span>
+                            <button class="copy-command" onclick="copyCommand(this)">Salin</button>
+                        </div>
+                    </li>
+                    <li>Unduh script fakem:
+                        <div class="command-block">
+                            <span class="command-text">curl.exe -fsSL https://aku-es.tech/cursor/new.sh -o "$env:USERPROFILE\.local\bin\fakem.sh"</span>
+                            <button class="copy-command" onclick="copyCommand(this)">Salin</button>
+                        </div>
+                    </li>
+                    <li>Install Git Bash jika belum terinstall (diperlukan untuk menjalankan script bash)</li>
+                    <li>Untuk menggunakan fakem, buka Git Bash dan jalankan:
+                        <div class="command-block">
+                            <span class="command-text">~/.local/bin/fakem.sh</span>
+                            <button class="copy-command" onclick="copyCommand(this)">Salin</button>
+                        </div>
+                    </li>
+                </ol>
         </ol>
+
+        <h2>Cara Penggunaan</h2>
+        <div class="command-block">
+            <span class="command-text">fakem {on|off|new|gen|run}</span>
+            <button class="copy-command" onclick="copyCommand(this)">Salin</button>
+        </div>
+        <ul class="usage-list">
+            <li>
+                <code>on</code>
+                <span>Aktifkan fake machine ID</span>
+            </li>
+            <li>
+                <code>off</code>
+                <span>Nonaktifkan fake machine ID</span>
+            </li>
+            <li>
+                <code>new</code>
+                <span>Generate fake machine ID baru</span>
+            </li>
+            <li>
+                <code>gen</code>
+                <span>Generate data telemetry baru dan update storage.json</span>
+            </li>
+            <li>
+                <code>run</code>
+                <span>Jalankan aplikasi dengan fake machine ID</span>
+            </li>
+        </ul>
     </div>
 
     <script>
-        function generateUUID() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = Math.random() * 16 | 0,
-                    v = c == 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
-        }
-
-        function updateJsonDisplay(uuid) {
-            const jsonContent = {
-                "telemetry.machineId": uuid,
-                "telemetry.macMachineId": uuid,
-                "telemetry.devDeviceId": uuid,
-                "telemetry.sqmId": uuid
-            };
-            
-            const codeBlock = document.querySelector('.code-block');
-            codeBlock.textContent = JSON.stringify(jsonContent, null, 4);
-        }
-
-        function updateInstallCommands() {
-            const commandBlocks = document.querySelectorAll('.command-block .command-text');
-            const windowsCmd = commandBlocks[0];
-            const macCmd = commandBlocks[1];
-            const linuxCmd = commandBlocks[2];
-
-            const currentDomain = window.location.hostname || 'localhost';
-            const baseUrl = {
-                windows: `https://${currentDomain}/cursor/install-windows.ps1`,
-                unix: `https://${currentDomain}/cursor/install.sh`
-            };
-
-            windowsCmd.textContent = `irm ${baseUrl.windows} | iex`;
-            macCmd.textContent = `curl -fsSL ${baseUrl.unix} | bash`;
-            linuxCmd.textContent = `curl -fsSL ${baseUrl.unix} | bash`;
-        }
-
-        function updateUUID() {
-            const uuid = generateUUID();
-            updateJsonDisplay(uuid);
-            updateInstallCommands();
-        }
-
-        // Generate initial UUID
-        updateUUID();
-
         function copyCommand(button) {
             const commandText = button.previousElementSibling.textContent;
             navigator.clipboard.writeText(commandText).then(() => {
                 const originalText = button.textContent;
                 button.textContent = 'Tersalin!';
+                button.style.background = '#22c55e';
                 setTimeout(() => {
                     button.textContent = originalText;
+                    button.style.background = '';
                 }, 2000);
             });
         }
