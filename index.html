@@ -252,47 +252,23 @@
         <h2>Petunjuk Instalasi</h2>
         <ol>
             <li>Tutup Cursor</li>
-                <h3>Linux</h3>
-                <ol>
-                    <li>Buka terminal</li>
-                    <li>Jalankan perintah berikut untuk mengunduh dan memasang fakem:
-                        <div class="command-block">
-                            <span class="command-text">curl -fsSL https://aku-es.tech/cursor/new.sh -o ~/.local/bin/fakem && chmod +x ~/.local/bin/fakem</span>
-                            <button class="copy-command" onclick="copyCommand(this)">Salin</button>
-                        </div>
-                    </li>
-                    <li>Pastikan <code>~/.local/bin</code> ada di PATH anda. Jika belum, tambahkan baris berikut ke <code>~/.bashrc</code> atau <code>~/.zshrc</code>:
-                        <div class="command-block">
-                            <span class="command-text">export PATH="$HOME/.local/bin:$PATH"</span>
-                            <button class="copy-command" onclick="copyCommand(this)">Salin</button>
-                        </div>
-                    </li>
-                    <li>Sekarang anda bisa menggunakan perintah <code>fakem</code> dari terminal manapun</li>
-                </ol>
-
-                <h3>Windows</h3>
-                <ol>
-                    <li>Buka PowerShell sebagai Administrator</li>
-                    <li>Buat direktori untuk menyimpan fakem:
-                        <div class="command-block">
-                            <span class="command-text">New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.local\bin"</span>
-                            <button class="copy-command" onclick="copyCommand(this)">Salin</button>
-                        </div>
-                    </li>
-                    <li>Unduh script fakem:
-                        <div class="command-block">
-                            <span class="command-text">curl.exe -fsSL https://aku-es.tech/cursor/new.sh -o "$env:USERPROFILE\.local\bin\fakem.sh"</span>
-                            <button class="copy-command" onclick="copyCommand(this)">Salin</button>
-                        </div>
-                    </li>
-                    <li>Install Git Bash jika belum terinstall (diperlukan untuk menjalankan script bash)</li>
-                    <li>Untuk menggunakan fakem, buka Git Bash dan jalankan:
-                        <div class="command-block">
-                            <span class="command-text">~/.local/bin/fakem.sh</span>
-                            <button class="copy-command" onclick="copyCommand(this)">Salin</button>
-                        </div>
-                    </li>
-                </ol>
+            <h3>Linux</h3>
+            <ol>
+                <li>Buka terminal</li>
+                <li>Jalankan perintah berikut untuk mengunduh dan memasang fakem:
+                    <div class="command-block">
+                        <span class="command-text">curl -fsSL https://aku-es.tech/cursor/new.sh -o ~/.local/bin/fakem && chmod +x ~/.local/bin/fakem</span>
+                        <button class="copy-command" onclick="copyCommand(this)">Salin</button>
+                    </div>
+                </li>
+                <li>Pastikan <code>~/.local/bin</code> ada di PATH anda. Jika belum, tambahkan baris berikut ke <code>~/.bashrc</code> atau <code>~/.zshrc</code>:
+                    <div class="command-block">
+                        <span class="command-text">export PATH="$HOME/.local/bin:$PATH"</span>
+                        <button class="copy-command" onclick="copyCommand(this)">Salin</button>
+                    </div>
+                </li>
+                <li>Sekarang anda bisa menggunakan perintah <code>fakem</code> dari terminal manapun</li>
+            </ol>
         </ol>
 
         <h2>Cara Penggunaan</h2>
