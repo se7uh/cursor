@@ -1,6 +1,4 @@
-# Cursor Hack
-
-Script untuk memodifikasi machine ID dan telemetry data Cursor untuk menghindari batasan trial.
+# 🖱️
 
 ## Instalasi
 
