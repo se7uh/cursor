@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Version information
-VERSION="v1.0.1"
-CURSOR_VERSION_MAX="v0.45.x"
+VERSION="v1.0.999"
 AUTHOR="se7uh"
 REPO="https://github.com/se7uh/cursor"
 
@@ -12,9 +11,15 @@ SILVER="\e[38;5;247m"
 BLUE="\e[38;5;39m"
 PURPLE="\e[38;5;171m"
 GREEN="\e[38;5;82m"
+RED="\e[38;5;196m"
 RESET="\e[0m"
 BOLD="\e[1m"
 DIM="\e[2m"
+
+# Unicode symbols
+CHECK_MARK="✓"
+CROSS_MARK="✗"
+INFO_MARK="ⓘ"
 
 # Variables
 FAKE_ID_FILE="$HOME/.fake_machine_id"
@@ -40,10 +45,9 @@ function print_fancy_box() {
 # Function to show version and info
 function show_version() {
     clear
-    print_fancy_box " ${BOLD}${PURPLE}Cursor Hack ${GOLD}$VERSION ${RESET}"
+    print_fancy_box " ${BOLD}${PURPLE}FAKEM4🖱️ ${GOLD}$VERSION ${RESET}"
     echo
     echo -e "${BLUE}${BOLD}System Information:${RESET}"
-    echo -e "${SILVER}├─ Compatible: ${GREEN}Cursor $CURSOR_VERSION_MAX${RESET}"
     echo -e "${SILVER}├─ Author: ${PURPLE}$AUTHOR${RESET}"
     echo -e "${SILVER}└─ Repository: ${BLUE}$REPO ${DIM}(Private)${RESET}"
 }
@@ -134,33 +138,76 @@ function run_application() {
     sudo -u "$USER" zsh -i -c "$1"
 }
 
+# Function to update the script
+function update_script() {
+    local script_path=$(which fakem)
+    if [ -z "$script_path" ]; then
+        script_path="$0"
+    fi
+    
+    echo -e "${BLUE}${BOLD}${INFO_MARK} Updating script...${RESET}"
+    
+    # Create temporary file
+    local temp_file=$(mktemp)
+    
+    # Download the latest version
+    if curl -fsSL https://raw.githubusercontent.com/se7uh/cursor/refs/heads/main/new.sh -o "$temp_file"; then
+        # Make the downloaded script executable
+        chmod +x "$temp_file"
+        
+        # Replace the current script with the new one
+        if mv "$temp_file" "$script_path"; then
+            print_success "Update successful! Script updated to latest version"
+            exit 0
+        else
+            print_error "Failed to update script. Try running with sudo: sudo fakem update"
+            rm -f "$temp_file"
+            exit 1
+        fi
+    else
+        print_error "Failed to download latest version. Check your internet connection."
+        rm -f "$temp_file"
+        exit 1
+    fi
+}
+
+# Function to reset all IDs (both machine ID and telemetry)
+function reset_all_ids() {
+    print_info "Resetting all machine IDs and telemetry data..."
+    generate_fake_id
+    generate_new_id
+    print_success "All IDs have been successfully reset"
+}
+
 # Help function to show usage
 function show_help() {
     clear
-    print_fancy_box " ${BOLD}${PURPLE}Cursor Hack ${GOLD}$VERSION ${RESET}"
+    print_fancy_box " ${BOLD}${PURPLE}FAKEM4🖱️  ${GOLD}$VERSION ${RESET}"
     echo
     echo -e "${BLUE}${BOLD}Available Commands:${RESET}"
     echo -e "${SILVER}├─ ${GOLD}on      ${RESET}- Activate fake machine ID"
     echo -e "${SILVER}├─ ${GOLD}off     ${RESET}- Deactivate fake machine ID"
     echo -e "${SILVER}├─ ${GOLD}new     ${RESET}- Generate a new fake machine ID"
     echo -e "${SILVER}├─ ${GOLD}gen     ${RESET}- Generate new telemetry data"
+    echo -e "${SILVER}├─ ${GOLD}reset   ${RESET}- Reset all IDs (machine ID and telemetry)"
     echo -e "${SILVER}├─ ${GOLD}run     ${RESET}- Run the application with fake machine ID"
+    echo -e "${SILVER}├─ ${GOLD}update  ${RESET}- Update script to latest version"
     echo -e "${SILVER}└─ ${GOLD}version ${RESET}- Show version information"
 }
 
 # Success message function
 function print_success() {
-    echo -e "${GREEN}${BOLD}✓ $1${RESET}"
+    echo -e "${GREEN}${BOLD}${CHECK_MARK} $1${RESET}"
 }
 
 # Error message function
 function print_error() {
-    echo -e "\e[91m${BOLD}✗ $1${RESET}"
+    echo -e "${RED}${BOLD}${CROSS_MARK} $1${RESET}"
 }
 
 # Info message function
 function print_info() {
-    echo -e "${BLUE}${BOLD}ℹ $1${RESET}"
+    echo -e "${BLUE}${BOLD}${INFO_MARK} $1${RESET}"
 }
 
 # Main logic to handle command-line arguments
@@ -169,7 +216,9 @@ case "$1" in
     off) turn_off ;;
     new) generate_fake_id ;;
     gen) generate_new_id ;;  # Generate new telemetry data and update JSON
+    reset) reset_all_ids ;;  # Reset all IDs (machine ID and telemetry)
     run) run_application "$2" ;;  # Run the application with fake machine ID
+    update) update_script ;;  # Update the script to the latest version
     version) show_version ;;  # Show version information
     *) show_help ;;
 esac

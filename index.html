@@ -257,7 +257,7 @@
                 <li>Buka terminal</li>
                 <li>Jalankan perintah berikut untuk mengunduh dan memasang fakem:
                     <div class="command-block">
-                        <span class="command-text">curl -fsSL https://aku-es.tech/cursor/new.sh -o ~/.local/bin/fakem && chmod +x ~/.local/bin/fakem</span>
+                        <span class="command-text">curl -fsSL https://raw.githubusercontent.com/se7uh/cursor/refs/heads/main/new.sh -o ~/.local/bin/fakem && chmod +x ~/.local/bin/fakem</span>
                         <button class="copy-command" onclick="copyCommand(this)">Salin</button>
                     </div>
                 </li>
@@ -273,7 +273,7 @@
 
         <h2>Cara Penggunaan</h2>
         <div class="command-block">
-            <span class="command-text">fakem {on|off|new|gen|run|version}</span>
+            <span class="command-text">fakem {on|off|new|gen|reset|run|update|version}</span>
             <button class="copy-command" onclick="copyCommand(this)">Salin</button>
         </div>
         <ul class="usage-list">
@@ -294,12 +294,20 @@
                 <span>Generate data telemetry baru dan update storage.json</span>
             </li>
             <li>
+                <code>reset</code>
+                <span>Reset semua ID (machine ID dan telemetry)</span>
+            </li>
+            <li>
                 <code>run</code>
                 <span>Jalankan aplikasi dengan fake machine ID</span>
             </li>
             <li>
+                <code>update</code>
+                <span>Perbarui script ke versi terbaru</span>
+            </li>
+            <li>
                 <code>version</code>
-                <span>Tampilkan informasi versi fakem</span>
+                <span>Tampilkan informasi versi</span>
             </li>
         </ul>
     </div>

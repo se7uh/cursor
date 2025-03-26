@@ -16,7 +16,7 @@ export PATH="$HOME/.local/bin:$PATH"
 ## Penggunaan
 
 ```bash
-fakem {on|off|new|gen|run|version}
+fakem {on|off|new|gen|reset|run|update|version}
 ```
 
 ### Perintah yang tersedia:
@@ -24,7 +24,9 @@ fakem {on|off|new|gen|run|version}
 - `off` - Nonaktifkan fake machine ID
 - `new` - Generate fake machine ID baru
 - `gen` - Generate data telemetry baru dan update storage.json
+- `reset` - Reset semua ID (machine ID dan telemetry)
 - `run` - Jalankan aplikasi dengan fake machine ID
+- `update` - Perbarui script ke versi terbaru
 - `version` - Tampilkan informasi versi
 
 ## Catatan Penting
