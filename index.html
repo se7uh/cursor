@@ -257,7 +257,7 @@
                 <li>Buka terminal</li>
                 <li>Jalankan perintah berikut untuk mengunduh dan memasang fakem:
                     <div class="command-block">
-                        <span class="command-text">curl -fsSL https://raw.githubusercontent.com/se7uh/cursor/refs/heads/main/new.sh -o ~/.local/bin/fakem && chmod +x ~/.local/bin/fakem</span>
+                        <span class="command-text">curl -fsSL https://raw.githubusercontent.com/se7uh/cursr/refs/heads/main/new.sh -o ~/.local/bin/fakem && chmod +x ~/.local/bin/fakem</span>
                         <button class="copy-command" onclick="copyCommand(this)">Salin</button>
                     </div>
                 </li>
@@ -267,13 +267,27 @@
                         <button class="copy-command" onclick="copyCommand(this)">Salin</button>
                     </div>
                 </li>
+                <li>Untuk fitur date spoofing, install <code>faketime</code>:
+                    <div class="command-block">
+                        <span class="command-text">sudo apt-get install faketime  # Debian/Ubuntu</span>
+                        <button class="copy-command" onclick="copyCommand(this)">Salin</button>
+                    </div>
+                    <div class="command-block">
+                        <span class="command-text">sudo dnf install faketime  # Fedora</span>
+                        <button class="copy-command" onclick="copyCommand(this)">Salin</button>
+                    </div>
+                    <div class="command-block">
+                        <span class="command-text">sudo pacman -S faketime  # Arch Linux</span>
+                        <button class="copy-command" onclick="copyCommand(this)">Salin</button>
+                    </div>
+                </li>
                 <li>Sekarang anda bisa menggunakan perintah <code>fakem</code> dari terminal manapun</li>
             </ol>
         </ol>
 
         <h2>Cara Penggunaan</h2>
         <div class="command-block">
-            <span class="command-text">fakem {on|off|new|gen|reset|run|update|version}</span>
+            <span class="command-text">fakem {on|off|new|gen|beta|settings|reset|run|update|version}</span>
             <button class="copy-command" onclick="copyCommand(this)">Salin</button>
         </div>
         <ul class="usage-list">
@@ -294,12 +308,20 @@
                 <span>Generate data telemetry baru dan update storage.json</span>
             </li>
             <li>
+                <code>beta</code>
+                <span>Generate data telemetry format beta (simplified format)</span>
+            </li>
+            <li>
+                <code>settings</code>
+                <span>Konfigurasi tanggal dan pengaturan lainnya</span>
+            </li>
+            <li>
                 <code>reset</code>
                 <span>Reset semua ID (machine ID dan telemetry)</span>
             </li>
             <li>
                 <code>run</code>
-                <span>Jalankan aplikasi dengan fake machine ID</span>
+                <span>Jalankan aplikasi dengan fake machine ID dan fake date</span>
             </li>
             <li>
                 <code>update</code>
@@ -308,6 +330,20 @@
             <li>
                 <code>version</code>
                 <span>Tampilkan informasi versi</span>
+            </li>
+        </ul>
+
+        <h2>Fitur Settings</h2>
+        <p>Script ini sekarang menggunakan file JSON untuk menyimpan pengaturan di <code>~/.fakem.json</code>:</p>
+        <ul class="usage-list">
+            <li>
+                <span>Fake machine ID disimpan dalam settings, bukan lagi di file terpisah</span>
+            </li>
+            <li>
+                <span>Custom date dapat diatur dan akan digunakan saat menjalankan aplikasi dengan <code>run</code></span>
+            </li>
+            <li>
+                <span>Semua pengaturan dapat dikonfigurasi melalui perintah <code>settings</code></span>
             </li>
         </ul>
     </div>
